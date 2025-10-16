@@ -162,3 +162,29 @@ def test_delete_item_not_enough_permissions(
     assert response.status_code == 400
     content = response.json()
     assert content["detail"] == "Not enough permissions"
+
+def test_create_item_with_whitespace_title(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    data = {"title": "   ", "description": "Test"}
+    response = client.post(
+        f"{settings.API_V1_STR}/items/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 422
+    assert "Title cannot be empty or whitespace only" in response.text
+
+
+def test_create_item_with_whitespace_around_title(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    data = {"title": "  Valid Title  ", "description": "Test"}
+    response = client.post(
+        f"{settings.API_V1_STR}/items/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 200
+    content = response.json()
+    assert content["title"] == "Valid Title"
