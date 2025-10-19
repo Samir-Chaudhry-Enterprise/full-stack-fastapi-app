@@ -139,6 +139,12 @@ export type ItemsDeleteItemData = {
 
 export type ItemsDeleteItemResponse = (Message);
 
+export type ItemsSendItemForAssignmentData = {
+    id: string;
+};
+
+export type ItemsSendItemForAssignmentResponse = (Message);
+
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;
 };
