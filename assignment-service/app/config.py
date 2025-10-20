@@ -8,10 +8,10 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
         extra="ignore",
     )
-    
+
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "Assignment Service"
-    
+
     POSTGRES_SERVER: str
     POSTGRES_PORT: int = 5432
     POSTGRES_USER: str

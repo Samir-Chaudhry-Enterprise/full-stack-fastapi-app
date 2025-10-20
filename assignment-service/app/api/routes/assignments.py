@@ -2,10 +2,10 @@ import uuid
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
+from shared_models.models import Item
 from sqlmodel import Session
 
 from app.database import get_db
-from shared_models.models import Item
 
 router = APIRouter(prefix="/assignments", tags=["assignments"])
 
@@ -31,8 +31,8 @@ def assign_item(
     item = session.get(Item, request.item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    
+
     if not request.is_superuser and (item.owner_id != request.user_id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
-    
+
     return Message(message="Item sent for assignment successfully")
