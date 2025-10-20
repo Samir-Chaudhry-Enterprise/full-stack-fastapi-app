@@ -23,6 +23,9 @@ dependencies = [
     "pyjwt<3.0.0,>=2.8.0",
 ]
 
+[tool.uv.sources]
+shared-models = { path = "../shared-models", editable = true }
+
 [tool.uv]
 dev-dependencies = [
     "pytest<8.0.0,>=7.4.3",
