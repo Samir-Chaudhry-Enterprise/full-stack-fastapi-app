@@ -161,7 +161,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/api/v1/assignments/assign').read()"]
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
       interval: 10s
       timeout: 5s
       retries: 5
