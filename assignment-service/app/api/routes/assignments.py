@@ -32,6 +32,18 @@ def assign_item(
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
 
+    assignment_handlers = {
+        "Chore": "household_service",
+        "Work": "professional_service",
+        "Personal": "personal_service"
+    }
+
+    handler = assignment_handlers.get(item.item_type)
+    if not handler:
+        raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
+
+    print(f"Handler for item type '{item.item_type}': {handler}")
+
     if not request.is_superuser and (item.owner_id != request.user_id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
 
