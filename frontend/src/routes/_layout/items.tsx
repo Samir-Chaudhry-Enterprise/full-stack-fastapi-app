@@ -88,6 +88,7 @@ function ItemsTable() {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader w="sm">Title</Table.ColumnHeader>
+            <Table.ColumnHeader w="sm">Type</Table.ColumnHeader>
             <Table.ColumnHeader w="sm">Description</Table.ColumnHeader>
             <Table.ColumnHeader w="sm">Actions</Table.ColumnHeader>
           </Table.Row>
@@ -97,6 +98,9 @@ function ItemsTable() {
             <Table.Row key={item.id} opacity={isPlaceholderData ? 0.5 : 1}>
               <Table.Cell truncate maxW="sm">
                 {item.title}
+              </Table.Cell>
+              <Table.Cell truncate maxW="sm">
+                {item.item_type}
               </Table.Cell>
               <Table.Cell
                 color={!item.description ? "gray" : "inherit"}
