@@ -122,13 +122,28 @@ services:
 
   frontend:
     restart: "no"
-    ports:
-      - "5173:80"
     build:
       context: ./frontend
-      args:
-        - VITE_API_URL=http://localhost:8000
-        - NODE_ENV=development
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    command:
+      - sh
+      - -c
+      - "npm install && npm run dev -- --host"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    develop:
+      watch:
+        - path: ./frontend
+          action: sync
+          target: /app
+          ignore:
+            - ./frontend/node_modules
+            - node_modules
+        - path: ./frontend/package.json
+          action: rebuild
 
   playwright:
     build:
