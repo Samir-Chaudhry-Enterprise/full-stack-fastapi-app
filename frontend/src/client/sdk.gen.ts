@@ -117,7 +117,6 @@ export class ItemsService {
     
     /**
      * Send Item For Assignment
-     * Send an item for assignment.
      * @param data The data for the request.
      * @param data.id
      * @returns Message Successful Response

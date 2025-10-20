@@ -88,10 +88,16 @@ export const ItemCreateSchema = {
                 }
             ],
             title: 'Description'
+        },
+        item_type: {
+            type: 'string',
+            maxLength: 50,
+            minLength: 1,
+            title: 'Item Type'
         }
     },
     type: 'object',
-    required: ['title'],
+    required: ['title', 'item_type'],
     title: 'ItemCreate'
 } as const;
 
@@ -115,6 +121,12 @@ export const ItemPublicSchema = {
             ],
             title: 'Description'
         },
+        item_type: {
+            type: 'string',
+            maxLength: 50,
+            minLength: 1,
+            title: 'Item Type'
+        },
         id: {
             type: 'string',
             format: 'uuid',
@@ -127,7 +139,7 @@ export const ItemPublicSchema = {
         }
     },
     type: 'object',
-    required: ['title', 'id', 'owner_id'],
+    required: ['title', 'item_type', 'id', 'owner_id'],
     title: 'ItemPublic'
 } as const;
 
@@ -157,9 +169,16 @@ export const ItemUpdateSchema = {
                 }
             ],
             title: 'Description'
+        },
+        item_type: {
+            type: 'string',
+            maxLength: 50,
+            minLength: 1,
+            title: 'Item Type'
         }
     },
     type: 'object',
+    required: ['item_type'],
     title: 'ItemUpdate'
 } as const;
 

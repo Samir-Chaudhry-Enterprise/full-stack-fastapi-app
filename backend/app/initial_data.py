@@ -53,18 +53,18 @@ def create_sample_data(session: Session) -> None:
 
     # Create sample items for the users
     sample_items = [
-        {"title": "My First Project", "description": "A web application built with FastAPI"},
-        {"title": "Shopping List", "description": "Groceries and household items to buy"},
-        {"title": "Book Recommendations", "description": "List of books to read this year"},
-        {"title": " ", "description": "Draft notes from yesterday's meeting"},
-        {"title": "Travel Plans", "description": "Places to visit during summer vacation"},
-        {"title": "Learning Goals", "description": "Skills and technologies to learn"},
-        {"title": "Recipe Collection", "description": "Favorite recipes and cooking ideas"},
-        {"title": " ", "description": "Quick reminder about the client call"},
-        {"title": "Workout Routine", "description": "Daily exercise and fitness plan"},
-        {"title": "Meeting Notes", "description": "Important points from team meetings"},
-        {"title": "Bug Fixes", "description": "List of bugs to fix in the application"},
-        {"title": "Feature Ideas", "description": "New features to implement"},
+        {"title": "My First Project", "description": "A web application built with FastAPI", "item_type": "Work"},
+        {"title": "Shopping List", "description": "Groceries and household items to buy", "item_type": "Chore"},
+        {"title": "Book Recommendations", "description": "List of books to read this year", "item_type": "Personal"},
+        {"title": " ", "description": "Draft notes from yesterday's meeting", "item_type": "  Chore"},
+        {"title": "Travel Plans", "description": "Places to visit during summer vacation", "item_type": "Personal"},
+        {"title": "Learning Goals", "description": "Skills and technologies to learn", "item_type": "Personal"},
+        {"title": "Recipe Collection", "description": "Favorite recipes and cooking ideas", "item_type": "Chore"},
+        {"title": " ", "description": "Quick reminder about the client call", "item_type": "Work  "},
+        {"title": "Workout Routine", "description": "Daily exercise and fitness plan", "item_type": "Personal"},
+        {"title": "Meeting Notes", "description": "Important points from team meetings", "item_type": "Work"},
+        {"title": "Bug Fixes", "description": "List of bugs to fix in the application", "item_type": "Work"},
+        {"title": "Feature Ideas", "description": "New features to implement", "item_type": "Work"},
     ]
 
     # Distribute items among users

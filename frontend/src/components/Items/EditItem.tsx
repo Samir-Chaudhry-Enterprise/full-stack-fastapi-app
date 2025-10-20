@@ -33,6 +33,7 @@ interface EditItemProps {
 interface ItemUpdateForm {
   title: string
   description?: string
+  item_type: string
 }
 
 const EditItem = ({ item }: EditItemProps) => {
@@ -117,6 +118,21 @@ const EditItem = ({ item }: EditItemProps) => {
                 <Input
                   {...register("description")}
                   placeholder="Description"
+                  type="text"
+                />
+              </Field>
+
+              <Field
+                required
+                invalid={!!errors.item_type}
+                errorText={errors.item_type?.message}
+                label="Type"
+              >
+                <Input
+                  {...register("item_type", {
+                    required: "Type is required.",
+                  })}
+                  placeholder="Type (e.g., Chore, Work, Personal)"
                   type="text"
                 />
               </Field>

@@ -41,6 +41,7 @@ const AddItem = () => {
     defaultValues: {
       title: "",
       description: "",
+      item_type: "",
     },
   })
 
@@ -108,6 +109,21 @@ const AddItem = () => {
                 <Input
                   {...register("description")}
                   placeholder="Description"
+                  type="text"
+                />
+              </Field>
+
+              <Field
+                required
+                invalid={!!errors.item_type}
+                errorText={errors.item_type?.message}
+                label="Type"
+              >
+                <Input
+                  {...register("item_type", {
+                    required: "Type is required.",
+                  })}
+                  placeholder="Type (e.g., Chore, Work, Personal)"
                   type="text"
                 />
               </Field>

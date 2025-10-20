@@ -115,15 +115,22 @@ def delete_item(
 @router.post("/{id}/send-for-assignment")
 async def send_item_for_assignment(
     session: SessionDep, current_user: CurrentUser, id: uuid.UUID
-) -> Message:
-    """
-    Send an item for assignment.
-    """
+) -> Any:
     item = session.get(Item, id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     if not current_user.is_superuser and (item.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
+
+    assignment_handlers = {
+        "Chore": "household_service",
+        "Work": "professional_service",
+        "Personal": "personal_service"
+    }
+
+    handler = assignment_handlers.get(item.item_type)
+    if not handler:
+        raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
 
     async with httpx.AsyncClient() as client:
         response = await client.post(
