@@ -122,16 +122,6 @@ async def send_item_for_assignment(
     if not current_user.is_superuser and (item.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
 
-    assignment_handlers = {
-        "Chore": "household_service",
-        "Work": "professional_service",
-        "Personal": "personal_service"
-    }
-
-    handler = assignment_handlers.get(item.item_type)
-    if not handler:
-        raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
-
     async with httpx.AsyncClient() as client:
         response = await client.post(
             f"{settings.ASSIGNMENT_SERVICE_URL}/api/v1/assignments/assign",
