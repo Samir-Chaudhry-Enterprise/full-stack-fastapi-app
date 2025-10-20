@@ -89,6 +89,9 @@ services:
         condition: service_completed_successfully
       assignment-service:
         condition: service_healthy
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     env_file:
       - .env
     environment:
