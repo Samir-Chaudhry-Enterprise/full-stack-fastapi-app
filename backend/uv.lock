@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.10, <4.0"
 resolution-markers = [
     "python_full_version < '3.13'",
@@ -64,6 +64,7 @@ dependencies = [
     { name = "pyjwt" },
     { name = "python-multipart" },
     { name = "sentry-sdk", extra = ["fastapi"] },
+    { name = "shared-models" },
     { name = "sqlmodel" },
     { name = "tenacity" },
 ]
@@ -94,6 +95,7 @@ requires-dist = [
     { name = "pyjwt", specifier = ">=2.8.0,<3.0.0" },
     { name = "python-multipart", specifier = ">=0.0.7,<1.0.0" },
     { name = "sentry-sdk", extras = ["fastapi"], specifier = ">=1.40.6,<2.0.0" },
+    { name = "shared-models", editable = "../shared-models" },
     { name = "sqlmodel", specifier = ">=0.0.21,<1.0.0" },
     { name = "tenacity", specifier = ">=8.2.3,<9.0.0" },
 ]
@@ -1266,6 +1268,23 @@ wheels = [
 [package.optional-dependencies]
 fastapi = [
     { name = "fastapi" },
+]
+
+[[package]]
+name = "shared-models"
+version = "0.1.0"
+source = { editable = "../shared-models" }
+dependencies = [
+    { name = "email-validator" },
+    { name = "pydantic" },
+    { name = "sqlmodel" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "email-validator", specifier = ">=2.1.0.post1,<3.0.0.0" },
+    { name = "pydantic", specifier = ">2.0" },
+    { name = "sqlmodel", specifier = ">=0.0.21,<1.0.0" },
 ]
 
 [[package]]
