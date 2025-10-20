@@ -4,7 +4,7 @@ from sqlmodel import Session, select
 
 from app import crud
 from app.core.db import engine, init_db
-from app.models import ItemCreate, User, UserCreate
+from app.models import Item, ItemCreate, User, UserCreate
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -67,13 +67,26 @@ def create_sample_data(session: Session) -> None:
         {"title": "Feature Ideas", "description": "New features to implement", "item_type": "Work"},
     ]
 
-    # Distribute items among users
-    for i, item_data in enumerate(sample_items):
-        user = created_users[i % len(created_users)]  # Cycle through users
+    # Check if sample items already exist (to avoid duplicates on restart)
+    sample_items_exist = False
+    for user in created_users:
+        existing_items = session.exec(
+            select(Item).where(Item.owner_id == user.id).limit(1)
+        ).first()
+        if existing_items:
+            sample_items_exist = True
+            break
 
-        item_create = ItemCreate(**item_data)
-        item = crud.create_item(session=session, item_in=item_create, owner_id=user.id)
-        logger.info(f"Created item '{item.title}' for user {user.email}")
+    if not sample_items_exist:
+        # Distribute items among users
+        for i, item_data in enumerate(sample_items):
+            user = created_users[i % len(created_users)]  # Cycle through users
+
+            item_create = ItemCreate(**item_data)
+            item = crud.create_item(session=session, item_in=item_create, owner_id=user.id)
+            logger.info(f"Created item '{item.title}' for user {user.email}")
+    else:
+        logger.info("Sample items already exist, skipping item creation")
 
 
 def init() -> None:
