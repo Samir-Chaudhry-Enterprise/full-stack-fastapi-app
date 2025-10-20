@@ -55,12 +55,18 @@ services:
     ports:
       - "8080:8080"
 
+  prestart:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+
   backend:
     restart: "no"
     ports:
       - "8000:8000"
     build:
-      context: ./backend
+      context: .
+      dockerfile: ./backend/Dockerfile
     # command: sleep infinity  # Infinite loop to keep container alive doing nothing
     command:
       - fastapi
@@ -91,6 +97,28 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+
+  assignment-service:
+    restart: "no"
+    ports:
+      - "8001:8001"
+    command:
+      - fastapi
+      - run
+      - --reload
+      - --port
+      - "8001"
+      - "app/main.py"
+    develop:
+      watch:
+        - path: ./assignment-service
+          action: sync
+          target: /app
+          ignore:
+            - ./assignment-service/.venv
+            - .venv
+        - path: ./assignment-service/pyproject.toml
+          action: rebuild
 
   frontend:
     restart: "no"

@@ -1,11 +1,14 @@
 import uuid
 from typing import Any
 
+import httpx
 from fastapi import APIRouter, HTTPException
+from shared_models.models import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate, Message
+from app.core.config import settings
+from app.models import Message
 
 router = APIRouter(prefix="/items", tags=["items"])
 
@@ -110,7 +113,7 @@ def delete_item(
 
 
 @router.post("/{id}/send-for-assignment")
-def send_item_for_assignment(
+async def send_item_for_assignment(
     session: SessionDep, current_user: CurrentUser, id: uuid.UUID
 ) -> Message:
     """
@@ -121,5 +124,17 @@ def send_item_for_assignment(
         raise HTTPException(status_code=404, detail="Item not found")
     if not current_user.is_superuser and (item.owner_id != current_user.id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{settings.ASSIGNMENT_SERVICE_URL}/api/v1/assignments/assign",
+            json={
+                "item_id": str(id),
+                "user_id": str(current_user.id),
+                "is_superuser": current_user.is_superuser,
+            },
+            timeout=10.0,
+        )
+        response.raise_for_status()
 
     return Message(message="Item sent for assignment successfully")

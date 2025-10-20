@@ -45,7 +45,8 @@ services:
   prestart:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     build:
-      context: ./backend
+      context: .
+      dockerfile: ./backend/Dockerfile
     networks:
       - traefik-public
       - default
@@ -87,6 +88,11 @@ services:
         restart: true
       prestart:
         condition: service_completed_successfully
+      assignment-service:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
     env_file:
       - .env
     environment:
@@ -107,6 +113,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
+      - ASSIGNMENT_SERVICE_URL=${ASSIGNMENT_SERVICE_URL:-http://assignment-service:8001}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check/"]
@@ -114,8 +121,6 @@ services:
       timeout: 5s
       retries: 5
 
-    build:
-      context: ./backend
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
@@ -133,6 +138,36 @@ services:
 
       # Enable redirection for HTTP and HTTPS
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect
+
+  assignment-service:
+    image: '${DOCKER_IMAGE_ASSIGNMENT_SERVICE:-assignment-service}:${TAG-latest}'
+    restart: always
+    networks:
+      - traefik-public
+      - default
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    build:
+      context: .
+      dockerfile: ./assignment-service/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "8001:8001"
 
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
