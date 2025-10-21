@@ -100,8 +100,10 @@ function ItemsTable() {
                 {item.title}
               </Table.Cell>
               <Table.Cell
-                maxW="sm"
+                maxW="30ch"
                 whiteSpace="pre"
+                overflow="hidden"
+                textOverflow="ellipsis"
                 fontFamily="monospace"
                 bg="gray.50"
               >
