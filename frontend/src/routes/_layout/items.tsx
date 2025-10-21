@@ -102,6 +102,7 @@ function ItemsTable() {
               <Table.Cell
                 truncate
                 maxW="30ch"
+                whiteSpace="pre"
                 fontFamily="monospace"
                 bg="gray.50"
               >
