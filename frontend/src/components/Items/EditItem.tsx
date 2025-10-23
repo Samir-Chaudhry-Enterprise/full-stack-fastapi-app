@@ -71,7 +71,10 @@ const EditItem = ({ item }: EditItemProps) => {
   })
 
   const onSubmit: SubmitHandler<ItemUpdateForm> = async (data) => {
-    mutation.mutate(data)
+    mutation.mutate({
+      ...data,
+      item_type: data.item_type.trim(),
+    })
   }
 
   return (

@@ -62,7 +62,10 @@ const AddItem = () => {
   })
 
   const onSubmit: SubmitHandler<ItemCreate> = (data) => {
-    mutation.mutate(data)
+    mutation.mutate({
+      ...data,
+      item_type: data.item_type.trim(),
+    })
   }
 
   return (

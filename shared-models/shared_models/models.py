@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import EmailStr
+from pydantic import EmailStr, field_validator
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -55,6 +55,13 @@ class ItemBase(SQLModel):
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
     item_type: str = Field(min_length=1, max_length=50)
+
+    @field_validator("item_type")
+    @classmethod
+    def validate_item_type_not_whitespace(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("item_type cannot be empty or contain only whitespace")
+        return v.strip()
 
 
 class ItemCreate(ItemBase):
