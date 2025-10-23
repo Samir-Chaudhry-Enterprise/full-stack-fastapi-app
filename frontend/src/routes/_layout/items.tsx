@@ -103,7 +103,6 @@ function ItemsTable() {
                 maxW="30ch"
                 whiteSpace="pre"
                 overflow="hidden"
-                textOverflow="ellipsis"
                 fontFamily="monospace"
                 bg="gray.50"
               >
