@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import EmailStr
+from pydantic import EmailStr, field_validator
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -55,6 +55,13 @@ class ItemBase(SQLModel):
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
     item_type: str = Field(min_length=1, max_length=50)
+
+    @field_validator("title", "item_type", mode="before")
+    @classmethod
+    def strip_whitespace(cls, v: str) -> str:
+        if isinstance(v, str):
+            return v.strip()
+        return v
 
 
 class ItemCreate(ItemBase):
