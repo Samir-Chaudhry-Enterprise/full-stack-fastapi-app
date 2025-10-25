@@ -10,7 +10,7 @@ from tests.utils.item import create_random_item
 def test_create_item(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Foo", "description": "Fighters"}
+    data = {"title": "Foo", "description": "Fighters", "item_type": "Work"}
     response = client.post(
         f"{settings.API_V1_STR}/items/",
         headers=superuser_token_headers,
@@ -20,8 +20,24 @@ def test_create_item(
     content = response.json()
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
+    assert content["item_type"] == data["item_type"]
     assert "id" in content
     assert "owner_id" in content
+
+
+def test_create_item_with_whitespace_trimming(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    """Test that item_type whitespace is automatically trimmed (SJ-6 regression test)."""
+    data = {"title": "Test", "description": "Test item", "item_type": "  Work  "}
+    response = client.post(
+        f"{settings.API_V1_STR}/items/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 200
+    content = response.json()
+    assert content["item_type"] == "Work"  # Whitespace should be trimmed
 
 
 def test_read_item(
