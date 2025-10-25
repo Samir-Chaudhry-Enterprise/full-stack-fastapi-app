@@ -119,7 +119,7 @@ export class ItemsService {
      * Send Item For Assignment
      * @param data The data for the request.
      * @param data.id
-     * @returns Message Successful Response
+     * @returns unknown Successful Response
      * @throws ApiError
      */
     public static sendItemForAssignment(data: ItemsSendItemForAssignmentData): CancelablePromise<ItemsSendItemForAssignmentResponse> {
