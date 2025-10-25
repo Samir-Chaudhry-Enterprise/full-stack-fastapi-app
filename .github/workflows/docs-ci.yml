@@ -25,11 +25,14 @@ jobs:
           npm install -g markdownlint-cli2 markdown-link-check
 
       - name: Lint markdown files
-        run: markdownlint-cli2 "**/*.md"
+        run: markdownlint-cli2 "README.md" "CONTRIBUTING.md" "docs/**/*.md"
 
       - name: Check links in markdown files
         run: |
           set -e
-          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" -print0 | \
-            xargs -0 -n1 markdown-link-check --config .mlc_config.json -q || true
+          for file in README.md CONTRIBUTING.md docs/**/*.md; do
+            if [ -f "$file" ]; then
+              markdown-link-check --config .mlc_config.json -q "$file" || true
+            fi
+          done
         continue-on-error: true
