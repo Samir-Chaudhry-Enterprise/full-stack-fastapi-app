@@ -1,9 +1,10 @@
 import uuid
-from typing import Any
+from typing import Any, cast
 
 import httpx
 from fastapi import APIRouter, HTTPException
 from shared_models.models import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
+from sqlalchemy.sql.elements import ColumnElement
 from sqlmodel import func, select
 
 from app.api.deps import CurrentUser, SessionDep
@@ -24,7 +25,12 @@ def read_items(
     if current_user.is_superuser:
         count_statement = select(func.count()).select_from(Item)
         count = session.exec(count_statement).one()
-        statement = select(Item).order_by(Item.id).offset(skip).limit(limit)
+        statement = (
+            select(Item)
+            .order_by(cast(ColumnElement[Any], Item.id))
+            .offset(skip)
+            .limit(limit)
+        )
         items = session.exec(statement).all()
     else:
         count_statement = (
@@ -36,7 +42,7 @@ def read_items(
         statement = (
             select(Item)
             .where(Item.owner_id == current_user.id)
-            .order_by(Item.id)
+            .order_by(cast(ColumnElement[Any], Item.id))
             .offset(skip)
             .limit(limit)
         )
@@ -113,10 +119,10 @@ def delete_item(
     return Message(message="Item deleted successfully")
 
 
-@router.post("/{id}/send-for-assignment")
+@router.post("/{id}/send-for-assignment", response_model=Message)
 async def send_item_for_assignment(
     session: SessionDep, current_user: CurrentUser, id: uuid.UUID
-) -> Any:
+) -> Message:
     item = session.get(Item, id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
