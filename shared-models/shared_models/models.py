@@ -63,6 +63,7 @@ class ItemCreate(ItemBase):
 
 class ItemUpdate(ItemBase):
     title: str | None = Field(default=None, min_length=1, max_length=255)
+    item_type: str | None = Field(default=None, min_length=1, max_length=50)
 
 
 class Item(ItemBase, table=True):
