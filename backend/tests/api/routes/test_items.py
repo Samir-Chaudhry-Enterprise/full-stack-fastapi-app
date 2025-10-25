@@ -1,4 +1,5 @@
 import uuid
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from fastapi.testclient import TestClient
 from sqlmodel import Session
@@ -10,7 +11,7 @@ from tests.utils.item import create_random_item
 def test_create_item(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Foo", "description": "Fighters"}
+    data = {"title": "Foo", "description": "Fighters", "item_type": "Work"}
     response = client.post(
         f"{settings.API_V1_STR}/items/",
         headers=superuser_token_headers,
@@ -83,7 +84,7 @@ def test_update_item(
     client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=superuser_token_headers,
@@ -100,7 +101,7 @@ def test_update_item(
 def test_update_item_not_found(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{uuid.uuid4()}",
         headers=superuser_token_headers,
@@ -115,7 +116,7 @@ def test_update_item_not_enough_permissions(
     client: TestClient, normal_user_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=normal_user_token_headers,
@@ -157,6 +158,58 @@ def test_delete_item_not_enough_permissions(
     item = create_random_item(db)
     response = client.delete(
         f"{settings.API_V1_STR}/items/{item.id}",
+        headers=normal_user_token_headers,
+    )
+    assert response.status_code == 400
+    content = response.json()
+    assert content["detail"] == "Not enough permissions"
+
+
+def test_send_item_for_assignment_success(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
+) -> None:
+    """Test successfully sending an item for assignment."""
+    item = create_random_item(db)
+
+    mock_response = MagicMock()
+    mock_response.raise_for_status = MagicMock()
+
+    mock_client = AsyncMock()
+    mock_client.post = AsyncMock(return_value=mock_response)
+    mock_client.__aenter__ = AsyncMock(return_value=mock_client)
+    mock_client.__aexit__ = AsyncMock(return_value=None)
+
+    with patch("app.api.routes.items.httpx.AsyncClient", return_value=mock_client):
+        response = client.post(
+            f"{settings.API_V1_STR}/items/{item.id}/send-for-assignment",
+            headers=superuser_token_headers,
+        )
+
+    assert response.status_code == 200
+    content = response.json()
+    assert content["message"] == "Item sent for assignment successfully"
+
+
+def test_send_item_for_assignment_not_found(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    """Test sending a non-existent item for assignment."""
+    response = client.post(
+        f"{settings.API_V1_STR}/items/{uuid.uuid4()}/send-for-assignment",
+        headers=superuser_token_headers,
+    )
+    assert response.status_code == 404
+    content = response.json()
+    assert content["detail"] == "Item not found"
+
+
+def test_send_item_for_assignment_not_enough_permissions(
+    client: TestClient, normal_user_token_headers: dict[str, str], db: Session
+) -> None:
+    """Test sending an item for assignment without proper permissions."""
+    item = create_random_item(db)
+    response = client.post(
+        f"{settings.API_V1_STR}/items/{item.id}/send-for-assignment",
         headers=normal_user_token_headers,
     )
     assert response.status_code == 400
