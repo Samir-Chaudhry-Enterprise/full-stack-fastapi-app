@@ -146,7 +146,7 @@ export type ItemsSendItemForAssignmentData = {
     id: string;
 };
 
-export type ItemsSendItemForAssignmentResponse = (unknown);
+export type ItemsSendItemForAssignmentResponse = (Message);
 
 export type LoginLoginAccessTokenData = {
     formData: Body_login_login_access_token;

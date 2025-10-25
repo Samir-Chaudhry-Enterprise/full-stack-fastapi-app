@@ -119,10 +119,10 @@ def delete_item(
     return Message(message="Item deleted successfully")
 
 
-@router.post("/{id}/send-for-assignment")
+@router.post("/{id}/send-for-assignment", response_model=Message)
 async def send_item_for_assignment(
     session: SessionDep, current_user: CurrentUser, id: uuid.UUID
-) -> Any:
+) -> Message:
     item = session.get(Item, id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
