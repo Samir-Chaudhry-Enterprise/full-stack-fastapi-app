@@ -20,6 +20,13 @@ class Message(BaseModel):
     message: str
 
 
+def process_assignment_handler(handler: str) -> None:
+    """
+    Process assignment handler
+    """
+    pass
+
+
 @router.post("/assign", response_model=Message)
 def assign_item(
     request: AssignmentRequest,
@@ -44,6 +51,7 @@ def assign_item(
         raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
 
     print(f"Handler for item type '{item.item_type}': {handler}")
+    process_assignment_handler(handler)
 
     if not request.is_superuser and (item.owner_id != request.user_id):
         raise HTTPException(status_code=400, detail="Not enough permissions")
