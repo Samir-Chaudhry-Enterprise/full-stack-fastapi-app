@@ -10,7 +10,7 @@ from tests.utils.item import create_random_item
 def test_create_item(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Foo", "description": "Fighters"}
+    data = {"title": "Foo", "description": "Fighters", "item_type": "Personal"}
     response = client.post(
         f"{settings.API_V1_STR}/items/",
         headers=superuser_token_headers,
@@ -20,6 +20,7 @@ def test_create_item(
     content = response.json()
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
+    assert content["item_type"] == data["item_type"]
     assert "id" in content
     assert "owner_id" in content
 
@@ -83,7 +84,7 @@ def test_update_item(
     client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=superuser_token_headers,
@@ -93,6 +94,7 @@ def test_update_item(
     content = response.json()
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
+    assert content["item_type"] == data["item_type"]
     assert content["id"] == str(item.id)
     assert content["owner_id"] == str(item.owner_id)
 
@@ -100,7 +102,7 @@ def test_update_item(
 def test_update_item_not_found(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{uuid.uuid4()}",
         headers=superuser_token_headers,
@@ -115,7 +117,7 @@ def test_update_item_not_enough_permissions(
     client: TestClient, normal_user_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=normal_user_token_headers,
