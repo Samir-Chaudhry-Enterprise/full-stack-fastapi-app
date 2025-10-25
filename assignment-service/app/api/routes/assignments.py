@@ -38,8 +38,7 @@ def assign_item(
         "Personal": "personal_service"
     }
 
-    item_type_parts = item.item_type.split(' ')
-    handler = assignment_handlers.get(item_type_parts[0]) if item_type_parts else None
+    handler = assignment_handlers.get(item.item_type)
     if not handler:
         raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
 

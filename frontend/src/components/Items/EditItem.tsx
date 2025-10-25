@@ -131,8 +131,13 @@ const EditItem = ({ item }: EditItemProps) => {
                 <Input
                   {...register("item_type", {
                     required: "Type is required.",
+                    pattern: {
+                      value: /^(Work|Chore|Personal)$/,
+                      message:
+                        "Type must be Work, Chore, or Personal (no spaces)",
+                    },
                   })}
-                  placeholder="Type (e.g., Chore, Work, Personal)"
+                  placeholder="Type (Work, Chore, or Personal)"
                   type="text"
                 />
               </Field>
