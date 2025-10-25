@@ -62,7 +62,10 @@ const AddItem = () => {
   })
 
   const onSubmit: SubmitHandler<ItemCreate> = (data) => {
-    mutation.mutate(data)
+    mutation.mutate({
+      ...data,
+      item_type: data.item_type.trim(),
+    })
   }
 
   return (
@@ -122,6 +125,8 @@ const AddItem = () => {
                 <Input
                   {...register("item_type", {
                     required: "Type is required.",
+                    validate: (value) =>
+                      value.trim().length > 0 || "Type cannot be blank",
                   })}
                   placeholder="Type (e.g., Chore, Work, Personal)"
                   type="text"

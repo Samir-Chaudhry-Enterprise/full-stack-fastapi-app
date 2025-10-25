@@ -33,13 +33,14 @@ def assign_item(
         raise HTTPException(status_code=404, detail="Item not found")
 
     assignment_handlers = {
-        "Chore": "household_service",
-        "Work": "professional_service",
-        "Personal": "personal_service"
+        "chore": "household_service",
+        "work": "professional_service",
+        "personal": "personal_service"
     }
 
-    item_type_parts = item.item_type.split(' ')
-    handler = assignment_handlers.get(item_type_parts[0]) if item_type_parts else None
+    normalized = item.item_type.strip()
+    first_word = normalized.split()[0].lower() if normalized else ""
+    handler = assignment_handlers.get(first_word)
     if not handler:
         raise HTTPException(status_code=400, detail=f"Unknown item type: {item.item_type}")
 

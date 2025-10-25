@@ -101,12 +101,11 @@ function ItemsTable() {
               </Table.Cell>
               <Table.Cell
                 maxW="30ch"
-                whiteSpace="pre"
                 overflow="hidden"
                 fontFamily="monospace"
                 bg="gray.50"
               >
-                {item.item_type}
+                {item.item_type?.trim() || "N/A"}
               </Table.Cell>
               <Table.Cell
                 color={!item.description ? "gray" : "inherit"}

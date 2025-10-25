@@ -71,7 +71,10 @@ const EditItem = ({ item }: EditItemProps) => {
   })
 
   const onSubmit: SubmitHandler<ItemUpdateForm> = async (data) => {
-    mutation.mutate(data)
+    mutation.mutate({
+      ...data,
+      item_type: data.item_type.trim(),
+    })
   }
 
   return (
@@ -131,6 +134,8 @@ const EditItem = ({ item }: EditItemProps) => {
                 <Input
                   {...register("item_type", {
                     required: "Type is required.",
+                    validate: (value) =>
+                      value.trim().length > 0 || "Type cannot be blank",
                   })}
                   placeholder="Type (e.g., Chore, Work, Personal)"
                   type="text"
