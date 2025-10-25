@@ -35,7 +35,7 @@ export type ItemsPublic = {
 export type ItemUpdate = {
     title?: (string | null);
     description?: (string | null);
-    item_type?: (string | null);
+    item_type: string;
 };
 
 export type Message = {

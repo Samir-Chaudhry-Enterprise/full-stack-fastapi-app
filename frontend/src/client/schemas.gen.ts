@@ -171,20 +171,14 @@ export const ItemUpdateSchema = {
             title: 'Description'
         },
         item_type: {
-            anyOf: [
-                {
-                    type: 'string',
-                    maxLength: 50,
-                    minLength: 1
-                },
-                {
-                    type: 'null'
-                }
-            ],
+            type: 'string',
+            maxLength: 50,
+            minLength: 1,
             title: 'Item Type'
         }
     },
     type: 'object',
+    required: ['item_type'],
     title: 'ItemUpdate'
 } as const;
 
