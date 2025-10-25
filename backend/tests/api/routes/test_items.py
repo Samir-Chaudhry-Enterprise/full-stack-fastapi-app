@@ -11,7 +11,7 @@ from tests.utils.item import create_random_item
 def test_create_item(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Foo", "description": "Fighters", "item_type": "test"}
+    data = {"title": "Foo", "description": "Fighters", "item_type": "Work"}
     response = client.post(
         f"{settings.API_V1_STR}/items/",
         headers=superuser_token_headers,
