@@ -56,7 +56,7 @@ def create_sample_data(session: Session) -> None:
         {"title": "My First Project", "description": "A web application built with FastAPI", "item_type": "Work"},
         {"title": "Shopping List", "description": "Groceries and household items to buy", "item_type": "Chore"},
         {"title": "Book Recommendations", "description": "List of books to read this year", "item_type": "Personal"},
-        {"title": "Draft Meeting Notes", "description": "Draft notes from yesterday's meeting", "item_type": "  Chore"},
+        {"title": "Draft Meeting Notes", "description": "Draft notes from yesterday's meeting", "item_type": "Chore"},
         {"title": "Travel Plans", "description": "Places to visit during summer vacation", "item_type": "Personal"},
         {"title": "Learning Goals", "description": "Skills and technologies to learn", "item_type": "Personal"},
         {"title": "Recipe Collection", "description": "Favorite recipes and cooking ideas", "item_type": "Chore"},
@@ -65,6 +65,8 @@ def create_sample_data(session: Session) -> None:
         {"title": "Meeting Notes", "description": "Important points from team meetings", "item_type": "Work"},
         {"title": "Bug Fixes", "description": "List of bugs to fix in the application", "item_type": "                                  Work"},
         {"title": "Feature Ideas", "description": "New features to implement", "item_type": "Work"},
+        {"title": "Project Planning", "description": "Q4 planning", "item_type": "Work Project"},
+        {"title": "Home Repairs", "description": "Fix the sink", "item_type": "Chore Tasks"},
     ]
 
     # Check if sample items already exist (to avoid duplicates on restart)
