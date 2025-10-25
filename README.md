@@ -4,9 +4,8 @@
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/fastapi/full-stack-fastapi-template.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/fastapi/full-stack-fastapi-template)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> Modern full-stack web application template with FastAPI backend, React frontend, and complete Docker
-> deployment infrastructure. Built for rapid development with type-safe APIs, automated testing, and
-> production-ready deployment.
+> Modern full-stack web application for tracking and assigning items with FastAPI backend, React frontend, and complete Docker
+> deployment infrastructure.
 
 ## Table of Contents
 
