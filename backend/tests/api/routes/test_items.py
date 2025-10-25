@@ -84,7 +84,7 @@ def test_update_item(
     client: TestClient, superuser_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=superuser_token_headers,
@@ -101,7 +101,7 @@ def test_update_item(
 def test_update_item_not_found(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{uuid.uuid4()}",
         headers=superuser_token_headers,
@@ -116,7 +116,7 @@ def test_update_item_not_enough_permissions(
     client: TestClient, normal_user_token_headers: dict[str, str], db: Session
 ) -> None:
     item = create_random_item(db)
-    data = {"title": "Updated title", "description": "Updated description"}
+    data = {"title": "Updated title", "description": "Updated description", "item_type": "Work"}
     response = client.put(
         f"{settings.API_V1_STR}/items/{item.id}",
         headers=normal_user_token_headers,
