@@ -1,0 +1,26 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^https://dashboard.example.com"
+    },
+    {
+      "pattern": "^https://api.example.com"
+    },
+    {
+      "pattern": "^https://adminer.example.com"
+    },
+    {
+      "pattern": "^https://traefik.example.com"
+    },
+    {
+      "pattern": "^https://coverage-badge.samuelcolvin.workers.dev"
+    }
+  ],
+  "timeout": "10s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308, 403, 405]
+}
