@@ -1,4 +1,4 @@
-# Full Stack FastAPI Template
+# Itemize: Manage and Track your Tasks
 
 [![Test](https://github.com/fastapi/full-stack-fastapi-template/workflows/Test/badge.svg)](https://github.com/fastapi/full-stack-fastapi-template/actions?query=workflow%3ATest)
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/fastapi/full-stack-fastapi-template.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/fastapi/full-stack-fastapi-template)
@@ -24,27 +24,9 @@
 
 ## Overview
 
-This template provides a complete foundation for building modern web applications with a Python backend and
-TypeScript frontend. It includes authentication, role-based access control, CRUD operations, automated testing,
-CI/CD pipelines, and production deployment infrastructure.
-
-**Key Features:**
-- Complete user authentication and authorization system with JWT tokens
-- Auto-generated TypeScript client from OpenAPI specification
-- Hot-reload development environment with Docker Compose
-- Comprehensive test coverage with Pytest and Playwright
-- Production deployment with Traefik reverse proxy and automatic HTTPS
-- Multi-environment support (local, staging, production)
-- Automated CI/CD with GitHub Actions
-- Database migrations with Alembic
-- Email-based password recovery
-- Dark mode support in frontend
-
-**Who Should Use This:**
-- Teams building SaaS applications or internal tools
-- Developers who want a production-ready starting point
-- Projects requiring type-safe API communication
-- Applications needing user management and authentication
+A full-stack task management application that enables teams to create, organize, and track tasks with assignment
+capabilities. Built with a Python FastAPI backend and TypeScript React frontend, it provides role-based access
+control, automated workflows, and real-time task assignment and tracking features.
 
 ## Technology Stack
 
