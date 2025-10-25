@@ -1,7 +1,7 @@
 import { Flex, Image, useBreakpointValue } from "@chakra-ui/react"
 import { Link } from "@tanstack/react-router"
 
-import Logo from "/assets/images/itemize-logo.jpg"
+import Logo from "/assets/images/itemize-logo.png"
 import UserMenu from "./UserMenu"
 
 function Navbar() {
