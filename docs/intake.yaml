@@ -1,0 +1,175 @@
+repo: https://github.com/Samir-Chaudhry-Enterprise/full-stack-fastapi-app
+default_branch: master
+license: MIT
+license_file: LICENSE
+
+project_type: full-stack-web-application
+description: Production-ready template for building modern web applications with FastAPI backend and React frontend
+
+languages:
+  - python
+  - typescript
+  - javascript
+
+frameworks:
+  backend:
+    - fastapi
+    - sqlmodel
+    - alembic
+  frontend:
+    - react
+    - vite
+    - tanstack-router
+    - tanstack-query
+    - chakra-ui
+
+runtimes:
+  python: "3.10"
+  node: "24"
+
+package_managers:
+  backend: uv
+  frontend: npm
+
+entrypoints:
+  backend: "fastapi dev app/main.py"
+  frontend: "npm run dev"
+  full_stack: "docker compose watch"
+
+build:
+  backend:
+    - "cd backend"
+    - "uv sync"
+  frontend:
+    - "cd frontend"
+    - "npm install"
+
+env:
+  required:
+    - DOMAIN
+    - ENVIRONMENT
+    - PROJECT_NAME
+    - SECRET_KEY
+    - FIRST_SUPERUSER
+    - FIRST_SUPERUSER_PASSWORD
+    - POSTGRES_SERVER
+    - POSTGRES_PORT
+    - POSTGRES_DB
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+  optional:
+    - BACKEND_CORS_ORIGINS
+    - SMTP_HOST
+    - SMTP_PORT
+    - SMTP_USER
+    - SMTP_PASSWORD
+    - EMAILS_FROM_EMAIL
+    - SENTRY_DSN
+    - ASSIGNMENT_SERVICE_URL
+
+services:
+  - postgres
+  - traefik
+  - adminer
+  - mailcatcher
+  - assignment-service
+
+databases:
+  - name: postgres
+    version: "17"
+    orm: sqlmodel
+    migrations: alembic
+
+testing:
+  backend:
+    framework: pytest
+    coverage_threshold: 90
+    command: "cd backend && ./scripts/test.sh"
+  frontend:
+    framework: playwright
+    command: "cd frontend && npx playwright test"
+    sharding: 4
+
+linting:
+  backend:
+    tool: ruff
+    command: "cd backend && uv run ruff check ."
+  frontend:
+    tool: biome
+    command: "cd frontend && npm run lint"
+
+ci:
+  provider: github-actions
+  workflows:
+    - test-backend.yml
+    - lint-backend.yml
+    - playwright.yml
+    - generate-client.yml
+    - test-docker-compose.yml
+    - deploy-staging.yml
+    - deploy-production.yml
+    - latest-changes.yml
+    - smokeshow.yml
+  badges:
+    - build
+    - coverage
+    - license
+
+deployment:
+  targets:
+    - docker
+    - docker-compose
+    - traefik
+  environments:
+    - local
+    - staging
+    - production
+  strategy: self-hosted-runners
+  domains:
+    frontend: "dashboard.{DOMAIN}"
+    backend: "api.{DOMAIN}"
+    adminer: "adminer.{DOMAIN}"
+    traefik: "traefik.{DOMAIN}"
+
+architecture:
+  pattern: monorepo
+  components:
+    - backend (FastAPI REST API)
+    - frontend (React SPA)
+    - shared-models (Python package)
+  authentication: JWT
+  authorization: role-based (superuser/regular)
+  database: PostgreSQL with UUID primary keys
+  reverse_proxy: Traefik with automatic HTTPS
+  api_generation: OpenAPI to TypeScript
+
+features:
+  - User authentication and registration
+  - Password recovery via email
+  - Role-based access control (RBAC)
+  - CRUD operations for users and items
+  - Ownership-based permissions
+  - Automatic API client generation
+  - Database migrations
+  - Email functionality
+  - Health check endpoints
+  - API documentation (Swagger/ReDoc)
+  - Dark mode support
+
+docs_style: markdown
+docs_files:
+  - README.md
+  - CONTRIBUTING.md
+  - release-notes.md
+  - SECURITY.md
+
+maintainers:
+  - name: Development Team
+    contact: See repository
+
+support_policy: Community-driven open source project
+
+compliance:
+  security: HTTPS via Let's Encrypt
+  secrets_management: Environment variables
+  password_hashing: bcrypt
