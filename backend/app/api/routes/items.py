@@ -24,7 +24,7 @@ def read_items(
     if current_user.is_superuser:
         count_statement = select(func.count()).select_from(Item)
         count = session.exec(count_statement).one()
-        statement = select(Item).order_by(Item.id).offset(skip).limit(limit)
+        statement = select(Item).order_by(Item.id).offset(skip).limit(limit)  # type: ignore[arg-type]
         items = session.exec(statement).all()
     else:
         count_statement = (
@@ -36,7 +36,7 @@ def read_items(
         statement = (
             select(Item)
             .where(Item.owner_id == current_user.id)
-            .order_by(Item.id)
+            .order_by(Item.id)  # type: ignore[arg-type]
             .offset(skip)
             .limit(limit)
         )
