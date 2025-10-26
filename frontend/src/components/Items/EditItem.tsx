@@ -131,6 +131,16 @@ const EditItem = ({ item }: EditItemProps) => {
                 <Input
                   {...register("item_type", {
                     required: "Type is required.",
+                    validate: {
+                      noWhitespace: (value) =>
+                        value.trim() === value ||
+                        "Type cannot have leading/trailing spaces",
+                      singleWord: (value) =>
+                        !value.includes(" ") || "Type must be a single word",
+                      validType: (value) =>
+                        ["Chore", "Work", "Personal"].includes(value) ||
+                        "Type must be Chore, Work, or Personal",
+                    },
                   })}
                   placeholder="Type (e.g., Chore, Work, Personal)"
                   type="text"
