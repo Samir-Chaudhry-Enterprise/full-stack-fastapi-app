@@ -36,8 +36,30 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
         gap={4}
         px={4}
         py={2}
+        position="relative"
+        borderRadius="6px"
+        transition="all 0.2s ease"
         _hover={{
-          background: "gray.subtle",
+          bg: { base: "gray.100", _dark: "whiteAlpha.100" },
+          color: { base: "orange.600", _dark: "orange.400" },
+          transform: "translateX(2px)",
+          _before: {
+            opacity: 1,
+            width: "2px",
+          },
+        }}
+        _before={{
+          content: '""',
+          position: "absolute",
+          left: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          height: "60%",
+          width: "0px",
+          bg: { base: "orange.500", _dark: "orange.400" },
+          borderRadius: "0 2px 2px 0",
+          opacity: 0,
+          transition: "all 0.2s ease",
         }}
         alignItems="center"
         fontSize="sm"
@@ -50,7 +72,16 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
 
   return (
     <>
-      <Text fontSize="xs" px={4} py={2} fontWeight="bold">
+      <Text
+        fontSize="xs"
+        px={4}
+        py={2}
+        fontWeight="600"
+        textTransform="uppercase"
+        letterSpacing="wider"
+        color={{ base: "gray.600", _dark: "gray.400" }}
+        fontFamily="mono"
+      >
         Menu
       </Text>
       <Box>{listItems}</Box>

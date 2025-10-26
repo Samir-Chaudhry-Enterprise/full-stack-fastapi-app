@@ -13,6 +13,9 @@
   "dependencies": {
     "@chakra-ui/react": "^3.27.0",
     "@emotion/react": "^11.14.0",
+    "@fontsource/azeret-mono": "^5.2.11",
+    "@fontsource/commissioner": "^5.2.10",
+    "@fontsource/fraunces": "^5.2.9",
     "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-query-devtools": "^5.90.2",
     "@tanstack/react-router": "^1.131.50",

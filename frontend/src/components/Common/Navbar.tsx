@@ -1,4 +1,4 @@
-import { Flex, Image, useBreakpointValue } from "@chakra-ui/react"
+import { Flex, Image, Text, useBreakpointValue } from "@chakra-ui/react"
 import { Link } from "@tanstack/react-router"
 
 import Logo from "/assets/images/itemize-logo.png"
@@ -12,15 +12,31 @@ function Navbar() {
       display={display}
       justify="space-between"
       position="sticky"
-      color="white"
+      color={{ base: "gray.800", _dark: "gray.100" }}
       align="center"
-      bg="bg.muted"
+      bg={{ base: "white", _dark: "gray.900" }}
+      borderBottom="1px solid"
+      borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
+      backdropFilter="blur(12px)"
       w="100%"
       top={0}
-      p={4}
+      px={6}
+      py={3}
+      zIndex={10}
     >
       <Link to="/">
-        <Image src={Logo} alt="Logo" maxW="3xs" p={2} />
+        <Flex align="center" gap={3}>
+          <Image src={Logo} alt="Logo" maxW="40px" />
+          <Text
+            fontFamily="heading"
+            fontSize="xl"
+            fontWeight="600"
+            letterSpacing="tight"
+            color={{ base: "gray.900", _dark: "gray.100" }}
+          >
+            Itemize
+          </Text>
+        </Flex>
       </Link>
       <Flex gap={2} alignItems="center">
         <UserMenu />
