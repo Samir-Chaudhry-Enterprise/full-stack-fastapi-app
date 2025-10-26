@@ -66,9 +66,6 @@ class ItemCreate(ItemBase):
         
         stripped = v.strip()
         
-        if stripped != v:
-            raise ValueError('Type cannot have leading/trailing spaces')
-        
         if ' ' in stripped:
             raise ValueError('Type must be a single word')
         
@@ -89,9 +86,6 @@ class ItemUpdate(ItemBase):
             raise ValueError('Type is required')
         
         stripped = v.strip()
-        
-        if stripped != v:
-            raise ValueError('Type cannot have leading/trailing spaces')
         
         if ' ' in stripped:
             raise ValueError('Type must be a single word')
