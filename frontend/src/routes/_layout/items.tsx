@@ -100,13 +100,7 @@ function ItemsTable() {
               <Table.Cell truncate maxW="sm">
                 {item.title}
               </Table.Cell>
-              <Table.Cell
-                maxW="30ch"
-                whiteSpace="pre"
-                overflow="hidden"
-                fontFamily="monospace"
-                bg="gray.50"
-              >
+              <Table.Cell whiteSpace="pre" fontFamily="monospace" bg="gray.50">
                 {item.item_type}
               </Table.Cell>
               <Table.Cell
