@@ -14,6 +14,7 @@ import { z } from "zod"
 import { ItemsService } from "@/client"
 import { ItemActionsMenu } from "@/components/Common/ItemActionsMenu"
 import AddItem from "@/components/Items/AddItem"
+import SendForAssignment from "@/components/Items/SendForAssignment"
 import PendingItems from "@/components/Pending/PendingItems"
 import {
   PaginationItems,
@@ -116,7 +117,10 @@ function ItemsTable() {
                 {item.description || "N/A"}
               </Table.Cell>
               <Table.Cell>
-                <ItemActionsMenu item={item} />
+                <Flex gap={2} alignItems="center">
+                  <SendForAssignment id={item.id} />
+                  <ItemActionsMenu item={item} />
+                </Flex>
               </Table.Cell>
             </Table.Row>
           ))}
