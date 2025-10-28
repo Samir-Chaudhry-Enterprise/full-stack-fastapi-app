@@ -64,6 +64,9 @@ function Login() {
       justifyContent="center"
       gap={4}
       centerContent
+      css={{
+        animation: "reveal 0.8s ease-out",
+      }}
     >
       <Image
         src={Logo}
@@ -73,6 +76,24 @@ function Login() {
         alignSelf="center"
         mb={4}
       />
+      <Text
+        fontFamily="heading"
+        fontSize="3xl"
+        fontWeight="600"
+        textAlign="center"
+        mb={2}
+        color={{ base: "gray.900", _dark: "gray.100" }}
+      >
+        Welcome Back
+      </Text>
+      <Text
+        fontSize="sm"
+        textAlign="center"
+        color={{ base: "gray.600", _dark: "gray.400" }}
+        mb={4}
+      >
+        Sign in to continue to your account
+      </Text>
       <Field
         invalid={!!errors.username}
         errorText={errors.username?.message || !!error}
@@ -101,7 +122,7 @@ function Login() {
       <Button variant="solid" type="submit" loading={isSubmitting} size="md">
         Log In
       </Button>
-      <Text>
+      <Text color={{ base: "gray.600", _dark: "gray.400" }} textAlign="center">
         Don't have an account?{" "}
         <RouterLink to="/signup" className="main-link">
           Sign Up

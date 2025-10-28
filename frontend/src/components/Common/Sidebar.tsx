@@ -80,7 +80,9 @@ const Sidebar = () => {
       <Box
         display={{ base: "none", md: "flex" }}
         position="sticky"
-        bg="bg.subtle"
+        bg={{ base: "gray.50", _dark: "gray.900" }}
+        borderRight="1px solid"
+        borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
         top={0}
         minW="xs"
         h="100vh"
