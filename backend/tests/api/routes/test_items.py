@@ -215,3 +215,65 @@ def test_send_item_for_assignment_not_enough_permissions(
     assert response.status_code == 400
     content = response.json()
     assert content["detail"] == "Not enough permissions"
+
+
+def test_create_item_with_whitespace_only_type(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    """Test that creating an item with whitespace-only type fails."""
+    data = {"title": "Test Item", "description": "Test", "item_type": "   "}
+    response = client.post(
+        f"{settings.API_V1_STR}/items/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 422
+    content = response.json()
+    assert "item_type" in str(content["detail"])
+
+
+def test_create_item_with_leading_trailing_whitespace(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    """Test that creating an item with leading/trailing whitespace trims it."""
+    data = {"title": "Test Item", "description": "Test", "item_type": "  Work  "}
+    response = client.post(
+        f"{settings.API_V1_STR}/items/",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 200
+    content = response.json()
+    assert content["item_type"] == "Work"
+
+
+def test_update_item_with_whitespace_only_type(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
+) -> None:
+    """Test that updating an item with whitespace-only type fails."""
+    item = create_random_item(db)
+    data = {"title": "Updated", "description": "Updated", "item_type": "   "}
+    response = client.put(
+        f"{settings.API_V1_STR}/items/{item.id}",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 422
+    content = response.json()
+    assert "item_type" in str(content["detail"])
+
+
+def test_update_item_with_leading_trailing_whitespace(
+    client: TestClient, superuser_token_headers: dict[str, str], db: Session
+) -> None:
+    """Test that updating an item with leading/trailing whitespace trims it."""
+    item = create_random_item(db)
+    data = {"title": "Updated", "description": "Updated", "item_type": "  Chore  "}
+    response = client.put(
+        f"{settings.API_V1_STR}/items/{item.id}",
+        headers=superuser_token_headers,
+        json=data,
+    )
+    assert response.status_code == 200
+    content = response.json()
+    assert content["item_type"] == "Chore"

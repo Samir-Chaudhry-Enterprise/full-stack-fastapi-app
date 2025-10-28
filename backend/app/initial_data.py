@@ -91,7 +91,7 @@ def create_sample_data(session: Session) -> None:
         {
             "title": "Client Call",
             "description": "Quick reminder about the client call",
-            "item_type": "Work  ",
+            "item_type": "Work",
         },
         {
             "title": "Workout Routine",
@@ -106,7 +106,7 @@ def create_sample_data(session: Session) -> None:
         {
             "title": "Bug Fixes",
             "description": "List of bugs to fix in the application",
-            "item_type": "                                      Work Project",
+            "item_type": "Work Project",
         },
         {
             "title": "Feature Ideas",
