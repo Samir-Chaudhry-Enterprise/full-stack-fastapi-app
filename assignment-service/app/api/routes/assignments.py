@@ -45,6 +45,9 @@ def assign_item(
         "Personal": "personal_service"
     }
 
+    if not item.item_type:
+        raise HTTPException(status_code=400, detail="Item type is required for assignment")
+
     item_type_parts = item.item_type.split(' ')
     handler = assignment_handlers.get(item_type_parts[0]) if item_type_parts else None
     if not handler:
