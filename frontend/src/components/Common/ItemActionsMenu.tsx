@@ -3,7 +3,6 @@ import { BsThreeDotsVertical } from "react-icons/bs"
 import type { ItemPublic } from "@/client"
 import DeleteItem from "../Items/DeleteItem"
 import EditItem from "../Items/EditItem"
-import SendForAssignment from "../Items/SendForAssignment"
 import { MenuContent, MenuRoot, MenuTrigger } from "../ui/menu"
 
 interface ItemActionsMenuProps {
@@ -20,7 +19,6 @@ export const ItemActionsMenu = ({ item }: ItemActionsMenuProps) => {
       </MenuTrigger>
       <MenuContent>
         <EditItem item={item} />
-        <SendForAssignment id={item.id} />
         <DeleteItem id={item.id} />
       </MenuContent>
     </MenuRoot>

@@ -1,4 +1,4 @@
-import { Button, DialogTitle, Text } from "@chakra-ui/react"
+import { Button, DialogTitle, IconButton, Text } from "@chakra-ui/react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -34,12 +34,12 @@ const SendForAssignment = ({ id }: { id: string }) => {
     mutationFn: sendForAssignment,
     onSuccess: () => {
       showSuccessToast("Item sent for assignment successfully")
-      setIsOpen(false)
     },
     onError: () => {
       showErrorToast("An error occurred while sending the item for assignment")
     },
     onSettled: () => {
+      setIsOpen(false)
       queryClient.invalidateQueries()
     },
   })
@@ -57,10 +57,14 @@ const SendForAssignment = ({ id }: { id: string }) => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <FiSend fontSize="16px" />
-          Send for assignment
-        </Button>
+        <IconButton
+          variant="ghost"
+          size="sm"
+          colorPalette="blue"
+          aria-label="Send for assignment"
+        >
+          <FiSend />
+        </IconButton>
       </DialogTrigger>
 
       <DialogContent>
