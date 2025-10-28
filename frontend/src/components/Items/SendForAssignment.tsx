@@ -34,12 +34,12 @@ const SendForAssignment = ({ id }: { id: string }) => {
     mutationFn: sendForAssignment,
     onSuccess: () => {
       showSuccessToast("Item sent for assignment successfully")
-      setIsOpen(false)
     },
     onError: () => {
       showErrorToast("An error occurred while sending the item for assignment")
     },
     onSettled: () => {
+      setIsOpen(false)
       queryClient.invalidateQueries()
     },
   })
