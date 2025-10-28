@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import EmailStr
+from pydantic import EmailStr, field_validator
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -58,11 +58,43 @@ class ItemBase(SQLModel):
 
 
 class ItemCreate(ItemBase):
-    pass
+    @field_validator('item_type')
+    @classmethod
+    def validate_item_type(cls, v: str) -> str:
+        if not v:
+            raise ValueError('Type is required')
+        
+        stripped = v.strip()
+        
+        if ' ' in stripped:
+            raise ValueError('Type must be a single word')
+        
+        valid_types = ['Chore', 'Work', 'Personal']
+        if stripped not in valid_types:
+            raise ValueError('Type must be Chore, Work, or Personal')
+        
+        return stripped
 
 
 class ItemUpdate(ItemBase):
     title: str | None = Field(default=None, min_length=1, max_length=255)
+    
+    @field_validator('item_type')
+    @classmethod
+    def validate_item_type(cls, v: str) -> str:
+        if not v:
+            raise ValueError('Type is required')
+        
+        stripped = v.strip()
+        
+        if ' ' in stripped:
+            raise ValueError('Type must be a single word')
+        
+        valid_types = ['Chore', 'Work', 'Personal']
+        if stripped not in valid_types:
+            raise ValueError('Type must be Chore, Work, or Personal')
+        
+        return stripped
 
 
 class Item(ItemBase, table=True):
