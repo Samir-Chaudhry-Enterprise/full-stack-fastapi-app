@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import EmailStr
+from pydantic import EmailStr, field_validator
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -55,6 +55,20 @@ class ItemBase(SQLModel):
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
     item_type: str = Field(min_length=1, max_length=50)
+
+    @field_validator('item_type')
+    @classmethod
+    def validate_item_type(cls, v: str) -> str:
+        v = v.strip()
+        
+        if ' ' in v:
+            raise ValueError('item_type must be a single word without spaces')
+        
+        allowed_types = {'Work', 'Chore', 'Personal'}
+        if v not in allowed_types:
+            raise ValueError(f'item_type must be one of: {", ".join(allowed_types)}')
+        
+        return v
 
 
 class ItemCreate(ItemBase):
